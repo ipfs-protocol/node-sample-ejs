@@ -1,4 +1,4 @@
-"use strict";
+"use strict"; // 프로그램의 실행
 
 const PORT = 3000;
 const app = require("../app");

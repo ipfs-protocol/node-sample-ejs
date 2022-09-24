@@ -1,5 +1,7 @@
 "use strict";
 
+const User = require("../models/User");
+
 const output ={
   main: (req, res) => {
     res.render("index");
@@ -9,35 +11,24 @@ const output ={
   },
 };
 
-const users = {
-  id: ["aaa", "bbb", "김팀장"],
-  pw: ["111", "222", "333"],
-}
-
 const process = {
   login: (req, res) => {
-    // console.log(req.body);  body로 데이터 보내니까 body-parser 설치
-    const id = req.body.id,
-      pw = req.body.pw;
+    // user의 인스턴스를 생성
+    const user = new User(req.body);
 
-    // console.log(id, pw);
-    if(users.id.includes(id)) {
-      // user배열에 id값이 포함되어 있으면, 인덱스 값을 가져온다.
-      const idx = users.id.indexOf(id);
-      if(users.pw[idx] === pw) {
-        return res.json({
-          success: true,
-        });
-      }
-    }
-    return res.json({
-      success: false,
-      msg: "로그인 실패",
-    });
-  },
+    const response = user.login();
+    return res.json(response); // 클라이언트에게 전달(login.js)
+
+    /*
+      res.json()의 반환 값은 Promise 이다.
+      기본 res 의 반환 값은 Response 스트림인데,
+      ".json()" 메서드를 통해 Response(응답) 스트림을 읽을 수 있다.
+      Response 는 데이터가 모드 받아진 상태가 아니다.
+      ".json()"으로 Response 스트림을 가져와 완료될 때까지 읽는다.
+      다 읽은 body 의 텍스트를 Promise 형태로 반환한다.
+    */
+  }    
 };
-
-
 
 module.exports = {
   output,

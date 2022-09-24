@@ -1,4 +1,4 @@
-"use strict";
+"use strict"; // 프로그램의 기본 설정
 
 const express = require("express");
 const bodyParser = require("body-parser");
